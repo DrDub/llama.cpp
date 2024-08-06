@@ -36,7 +36,6 @@ var tokens = tokenize(text: prompt, add_bos: true)
 let n_kv_req = UInt32(tokens.count) + UInt32((n_len - Int(tokens.count)) * n_parallel)
 
 var context_params = llama_context_default_params()
-context_params.seed = 1234
 context_params.n_ctx = n_kv_req
 context_params.n_batch = UInt32(max(n_len, n_parallel))
 context_params.n_threads = 8
