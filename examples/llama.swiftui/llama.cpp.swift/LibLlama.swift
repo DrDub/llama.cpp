@@ -43,14 +43,14 @@ actor LlamaContext {
         self.tokens_list = []
         self.batch = llama_batch_init(512, 0, 1)
         self.temporary_invalid_cchars = []
-        self.sampling = llama_get_sampling(context)
+        self.sampling = llama_sampling_init(context, nil, nil);
     }
 
     deinit {
+        llama_sampling_free(sampling)
         llama_batch_free(batch)
         llama_free(context)
         llama_free_model(model)
-        llama_sampling_free(sampling)
         llama_backend_free()
     }
 

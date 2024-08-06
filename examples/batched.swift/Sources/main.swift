@@ -27,7 +27,6 @@ guard let model = llama_load_model_from_file(modelPath.cString(using: .utf8), mo
     print("Failed to load model")
     exit(1)
 }
-
 defer {
     llama_free_model(model)
 }
@@ -44,15 +43,21 @@ context_params.n_threads = 8
 context_params.n_threads_batch = 8
 
 let context = llama_new_context_with_model(model, context_params)
-let smpl = llama_get_sampling(context)
-
 guard context != nil else {
     print("Failed to initialize context")
     exit(1)
 }
-
 defer {
     llama_free(context)
+}
+
+let smpl = llama_sampling_init(model, nil, nil)
+guard smpl != nil else {
+    print("Failed to initialize sampling")
+    exit(1)
+}
+defer {
+    llama_sampling_free(smpl)
 }
 
 let n_ctx = llama_n_ctx(context)

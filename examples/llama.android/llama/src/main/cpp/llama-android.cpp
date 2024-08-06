@@ -380,12 +380,13 @@ Java_android_llama_cpp_LLamaAndroid_completion_1loop(
         JNIEnv * env,
         jobject,
         jlong context_pointer,
+        jlong sampling_pointer,
         jlong batch_pointer,
         jint n_len,
         jobject intvar_ncur
 ) {
     const auto context = reinterpret_cast<llama_context *>(context_pointer);
-    const auto sampling = reinterpret_cast<llama_sampling *>(llama_get_sampling(context));
+    const auto sampling = reinterpret_cast<llama_sampling *>(sampling_pointer);
     const auto batch = reinterpret_cast<llama_batch *>(batch_pointer);
     const auto model = llama_get_model(context);
 
